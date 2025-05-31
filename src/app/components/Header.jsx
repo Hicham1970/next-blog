@@ -23,6 +23,10 @@ export default function Header() {
     const searchQuery = urlParams.toString();
     router.push(`/search?${searchQuery}`);
   };
+  // Ajoutez un useEffect pour vérifier si le thème est bien initialisé
+  useEffect(() => {
+    console.log("Current theme:", theme);
+  }, [theme]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(searchParams);
@@ -37,8 +41,8 @@ export default function Header() {
         href="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-          Sahand&apos;s
+        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:from-blue-500 dark:via-purple-600 dark:to-pink-600 rounded-lg text-white">
+          Garoum&apos;s
         </span>
         Blog
       </Link>
@@ -64,8 +68,6 @@ export default function Header() {
         >
           {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
-
-
         <Link href="/sign-in">
           <Button gradientDuoTone="purpleToBlue" outline>
             Sign In
