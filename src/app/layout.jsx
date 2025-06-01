@@ -3,6 +3,8 @@ import "./globals.css";
 import Header from "./components/Header";
 import { ThemeProvider } from "next-themes";
 import ThemeCompo from "./components/ThemeCompo";
+import { ClerkProvider } from "@clerk/nextjs";
+// This is a custom layout for a Next.js application that uses Clerk for authentication and Next Themes for theming.
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,17 +23,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ThemeCompo>
-            <Header />
-            {children}
-          </ThemeCompo>
-        </ThemeProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ThemeCompo>
+              <Header />
+              {children}
+            </ThemeCompo>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

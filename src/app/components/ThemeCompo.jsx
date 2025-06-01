@@ -9,7 +9,7 @@ export default function ThemeCompo({ children }) {
     useEffect(() => {
         setMounted(true);
     }, []);
-
+    
     if (!mounted) {
         return null;
     }
