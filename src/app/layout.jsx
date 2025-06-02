@@ -17,17 +17,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body>
-        <ClerkProvider>
+    <ClerkProvider>
+      <html lang="en" className={inter.className} suppressHydrationWarning>
+        <body>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ThemeCompo>
               <Header />
               {children}
             </ThemeCompo>
           </ThemeProvider>
-        </ClerkProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
