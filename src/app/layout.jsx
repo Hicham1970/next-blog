@@ -17,8 +17,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
-      <html lang="en" className={inter.className} suppressHydrationWarning>
+    <html lang="en" className={inter.className} suppressHydrationWarning>
+      <ClerkProvider>
         <body>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ThemeCompo>
@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
             </ThemeCompo>
           </ThemeProvider>
         </body>
-      </html>
-    </ClerkProvider>
+      </ClerkProvider>
+    </html>
   );
 }
