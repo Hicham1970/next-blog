@@ -4,13 +4,12 @@ import { createOrUpdateUser, deleteUser } from '@/lib/actions/user';
 import { clerkClient } from '@clerk/nextjs/server';
 
 export async function POST(req) {
-    // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
+    console.log("Webhook triggered");
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
-
+    
     if (!WEBHOOK_SECRET) {
-        throw new Error(
-            'Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local'
-        );
+        console.error("Missing WEBHOOK_SECRET");
+        throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env');
     }
 
     // Get the headers
@@ -57,8 +56,10 @@ export async function POST(req) {
     console.log('Webhook body:', body);
 
     if (eventType === 'user.created' || eventType === 'user.updated') {
-        const { id, first_name, last_name, image_url, email_addresses, username } =
-            evt?.data;
+        console.log("Processing user event:", eventType);
+        const { id, first_name, last_name, image_url, email_addresses, username } = evt?.data;
+        console.log("User data:", { id, first_name, last_name, username });
+        
         try {
             const user = await createOrUpdateUser(
                 id,
@@ -68,23 +69,23 @@ export async function POST(req) {
                 email_addresses,
                 username
             );
-            if (user && eventType === 'user.created') {
-                try {
-                    await clerkClient.users.updateUserMetadata(id, {
-                        publicMetadata: {
-                            userMongoId: user._id,
-                            isAdmin: user.isAdmin,
-                        },
-                    });
-                } catch (error) {
-                    console.log('Error updating user metadata:', error);
-                }
-            }
+            console.log("User saved to MongoDB:", user);
         } catch (error) {
-            console.log('Error creating or updating user:', error);
-            return new Response('Error occured', {
-                status: 400,
-            });
+            console.error("MongoDB Error:", error);
+            return new Response(error.message, { status: 500 });
+        }
+
+        if (eventType === 'user.created') {
+            try {
+                await clerkClient.users.updateUserMetadata(id, {
+                    publicMetadata: {
+                        userMongoId: user._id,
+                        isAdmin: user.isAdmin,
+                    },
+                });
+            } catch (error) {
+                console.log('Error updating user metadata:', error);
+            }
         }
     }
 
