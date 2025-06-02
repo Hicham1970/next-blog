@@ -1,4 +1,6 @@
-import {User} from '../models/user-model.js';
+'use server';
+
+import { User } from '../models/user-model.js';
 import { Connect } from '../mongodb/mongoose.js';
 
 export const createOrUpdateUser = async (
