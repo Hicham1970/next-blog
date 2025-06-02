@@ -1,6 +1,7 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
-
+import { createOrUpdateUser } from '@/lib/actions/user.js';  
+import { clerkClient } from '@clerk/nextjs';  
 
 export async function POST(req) {
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -55,13 +56,67 @@ export async function POST(req) {
     console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
     console.log('Webhook body:', body);
 
+    // Handle different event types according to the actions you set up in the file actions/user.js
+
     if (eventType === 'user.created' || eventType === 'user.updated') {
-        console.log('User created or updated:', evt.data);
+        if (!evt?.data) {
+            return new Response('Invalid event data', { status: 400 });
+        }
+        const { id, email_addresses, first_name, last_name, username, image_url, profile_picture } = evt?.data;
+        // create the user with the createOrUpdateUser function
+        try {
+            const user = await createOrUpdateUser(
+                id,
+                email_addresses,
+                first_name,
+                last_name,
+                username,
+                image_url,
+                profile_picture
+            )
+            // ajouter ou update les infos du user à la base de données Clerk
+            if (user && eventType === 'user.created') {
+
+                try {
+                    await clerkClient.users.updateUserMetadata(user.clerkId, {
+                        publicMetadata: {
+                            userMongoId: user._id.toString(),
+                            isAdmin: user.isAdmin,
+                            firstName: user.firstName,
+                            email: user.email,
+                            lastName: user.lastName,
+                            userName: user.userName,
+                            profilePicture: user.profilePicture
+                        }
+                    })
+                } catch (error) {
+                    console.error('Error updating Clerk user metadata:', error);
+                }
+            }
+
+            console.log('User created or updated successfully:', user);
+
+        } catch (error) {
+            console.error('Error creating or updating user:', error);
+            return new Response('Error creating or updating user', { status: 500 });
+        }
+
     }
 
     if (eventType === 'user.deleted') {
-        console.log('User deleted:', evt.data);
+        if (!evt?.data) {
+            return new Response('Invalid event data', { status: 400 });
+        }
+        const { id } = evt?.data;
+        // delete the user with the deleteUser function
+        try {
+            await deleteUser(id);
+            console.log(`User with ID ${id} has been marked as deleted.`);
+            
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            return new Response('Error deleting user', { status: 500 });
+        }
     }
-
     return new Response('', { status: 200 });
 }
