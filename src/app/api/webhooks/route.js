@@ -1,7 +1,9 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { createOrUpdateUser, deleteUser } from '@/lib/actions/user';
-import { clerkClient } from '@clerk/nextjs/server';
+import { Clerk } from '@clerk/nextjs/server';
+
+const clerk = Clerk({ secretKey: process.env.CLERK_SECRET_KEY });
 
 export async function POST(req) {
     console.log("Webhook triggered, processing...");
@@ -91,18 +93,21 @@ export async function POST(req) {
 
             if (eventType === 'user.created') {
                 try {
-                    await clerkClient.users.updateUserMetadata(id, {
+                    console.log('⏳ Tentative de mise à jour des métadonnées...');
+                    
+                    const updatedUser = await clerk.users.updateUser(id, {
                         publicMetadata: {
                             userMongoId: user._id.toString(),
-                            profilePicture: user.profilePicture || '',
-                            isActive: user.isActive || true,
-                            isDeleted: user.isDeleted || false,
                             isAdmin: user.isAdmin || false,
                         },
                     });
-                    console.log('✅ Métadonnées Clerk mises à jour');
+                    
+                    console.log('✅ Métadonnées mises à jour:', updatedUser);
                 } catch (error) {
-                    console.error('❌ Erreur mise à jour métadonnées:', error);
+                    console.error('❌ Erreur:', {
+                        message: error.message,
+                        stack: error.stack
+                    });
                 }
             }
         } catch (error) {
