@@ -93,8 +93,11 @@ export async function POST(req) {
                 try {
                     await clerkClient.users.updateUserMetadata(id, {
                         publicMetadata: {
-                            userMongoId: user._id,
-                            isAdmin: user.isAdmin,
+                            userMongoId: user._id.toString(),
+                            profilePicture: user.profilePicture || '',
+                            isActive: user.isActive || true,
+                            isDeleted: user.isDeleted || false,
+                            isAdmin: user.isAdmin || false,
                         },
                     });
                     console.log('✅ Métadonnées Clerk mises à jour');
