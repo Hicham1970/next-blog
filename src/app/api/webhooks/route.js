@@ -4,7 +4,8 @@ import { createOrUpdateUser, deleteUser } from '@/lib/actions/user';
 import { clerkClient } from '@clerk/nextjs/server';
 
 export async function POST(req) {
-    console.log("Webhook triggered");
+    console.log("Webhook triggered, processing...");
+    // Ensure the environment variable is set   
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
     
     if (!WEBHOOK_SECRET) {
