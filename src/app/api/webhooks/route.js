@@ -56,36 +56,54 @@ export async function POST(req) {
     console.log('Webhook body:', body);
 
     if (eventType === 'user.created' || eventType === 'user.updated') {
-        console.log("Processing user event:", eventType);
-        const { id, first_name, last_name, image_url, email_addresses, username } = evt?.data;
-        console.log("User data:", { id, first_name, last_name, username });
-        
+        console.log('🎯 Traitement événement:', eventType);
+        const {
+            id,
+            first_name,
+            last_name,
+            image_url,
+            email_addresses,
+            username,
+            profile_picture
+        } = evt?.data;
+
+        console.log('📦 Données utilisateur reçues:', {
+            id,
+            email: email_addresses?.[0]?.email_address,
+            name: `${first_name} ${last_name}`
+        });
+
         try {
             const user = await createOrUpdateUser(
                 id,
+                email_addresses,
                 first_name,
                 last_name,
+                username,
                 image_url,
-                email_addresses,
-                username
+                profile_picture,
+                true, // isActive
+                false, // isDeleted
+                false  // isAdmin
             );
-            console.log("User saved to MongoDB:", user);
-        } catch (error) {
-            console.error("MongoDB Error:", error);
-            return new Response(error.message, { status: 500 });
-        }
+            console.log('✅ Utilisateur sauvegardé dans MongoDB:', user);
 
-        if (eventType === 'user.created') {
-            try {
-                await clerkClient.users.updateUserMetadata(id, {
-                    publicMetadata: {
-                        userMongoId: user._id,
-                        isAdmin: user.isAdmin,
-                    },
-                });
-            } catch (error) {
-                console.log('Error updating user metadata:', error);
+            if (eventType === 'user.created') {
+                try {
+                    await clerkClient.users.updateUserMetadata(id, {
+                        publicMetadata: {
+                            userMongoId: user._id,
+                            isAdmin: user.isAdmin,
+                        },
+                    });
+                    console.log('✅ Métadonnées Clerk mises à jour');
+                } catch (error) {
+                    console.error('❌ Erreur mise à jour métadonnées:', error);
+                }
             }
+        } catch (error) {
+            console.error('❌ Erreur MongoDB:', error);
+            return new Response(error.message, { status: 500 });
         }
     }
 
