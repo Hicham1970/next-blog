@@ -23,6 +23,12 @@ export default function SignInPage() {
         // si user is signed and isAdmin then show the create-post page
         <CreatePost />
       )}
+      {/* // If the user is signed in but not an admin, you can show a message or redirect them elsewhere */}
+      {isSignedIn && !user.publicMetadata.isAdmin && (
+        <div className="text-red-500 mt-4">
+          Please contact the admin to access the dashboard.
+        </div>
+      )}
     </div>
   );
 }
