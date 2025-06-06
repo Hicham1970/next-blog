@@ -1,11 +1,91 @@
 "use client";
 
+import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import dynamic from "next/dynamic";
+// const ReactQuil = dynamic(() => import("react-quill-new"), { ssr: false });
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
+
+
 
 export default function CreatePostPage() {
   const { user, isLoaded, isSignedIn } = useUser();
+  const [file, setFile] = useState(null);
+  const [imageUploadProgress, setImageUploadProgress] = useState(null);
+  const [imageUploadError, setImageUploadError] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [publishError, setPublishError] = useState(null);
+  const router = useRouter();
+  console.log(formData);
+
+  const handleUpdloadImage = async () => {
+    try {
+      if (!file) {
+        setImageUploadError("Please select an image");
+        return;
+      }
+      setImageUploadError(null);
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + "-" + file.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setImageUploadProgress(progress.toFixed(0));
+        },
+        (error) => {
+          setImageUploadError("Image upload failed");
+          setImageUploadProgress(null);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImageUploadProgress(null);
+            setImageUploadError(null);
+            setFormData({ ...formData, image: downloadURL });
+          });
+        }
+      );
+    } catch (error) {
+      setImageUploadError("Image upload failed");
+      setImageUploadProgress(null);
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/post/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          userMongoId: user.publicMetadata.userMongoId,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setPublishError(data.message);
+        return;
+      }
+      if (res.ok) {
+        setPublishError(null);
+        router.push(`/post/${data.slug}`);
+      }
+    } catch (error) {
+      setPublishError("Something went wrong");
+    }
+  };
+
 
   if (!isLoaded) {
     return null;
@@ -18,7 +98,7 @@ export default function CreatePostPage() {
           <h1 className='text-center text-3xl my-7 font-semibold'>
             Create a post
           </h1>
-          <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+          <form className='flex flex-col gap-4'>
             <div className='flex flex-col gap-4 sm:flex-row justify-between'>
               <TextInput
                 type='text'
@@ -55,16 +135,16 @@ export default function CreatePostPage() {
                 onClick={handleUpdloadImage}
                 disabled={imageUploadProgress}
               >
-                {imageUploadProgress ? (
-                  <div className='w-16 h-16'>
-                    <CircularProgressbar
+                 {imageUploadProgress ? (
+                   <div className='w-16 h-16'>
+                     <CircularProgressbar
                       value={imageUploadProgress}
                       text={`${imageUploadProgress || 0}%`}
-                    />
-                  </div>
+                    /> 
+                   </div>
                 ) : (
-                  'Upload Image'
-                )}
+                 'Upload Image'
+                )} 
               </Button>
             </div>
   
