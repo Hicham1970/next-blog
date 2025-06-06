@@ -6,8 +6,8 @@ import { clerkClient } from '@clerk/nextjs/server';
 export async function POST(req) {
     console.log("Webhook triggered, processing...");
     // Ensure the environment variable is set   
-    const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SIGNING_SECRET ;
-    
+    const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
+
     if (!WEBHOOK_SECRET) {
         console.error("Missing WEBHOOK_SECRET");
         throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env');
