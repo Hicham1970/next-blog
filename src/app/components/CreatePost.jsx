@@ -7,6 +7,11 @@ import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 // import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { app } from "@/firebase"; // Adjust the import path as necessary
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
 
 export default function CreatePost() {
   const { user, isLoaded, isSignedIn } = useUser();
