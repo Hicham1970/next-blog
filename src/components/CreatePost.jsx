@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import {useTheme} from "next-themes";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
-// import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "@/firebase"; // Adjust the import path as necessary
@@ -26,6 +25,8 @@ export default function CreatePost() {
   useEffect(() => {
     console.log("Current theme:", theme);
   }, [theme]);
+
+  console.log("User data:", formData);
 
   const handleUpdloadImage = async () => {
     try {
@@ -94,7 +95,7 @@ export default function CreatePost() {
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a post</h1>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"

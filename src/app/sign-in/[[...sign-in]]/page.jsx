@@ -1,7 +1,7 @@
 "use client";
 
 import { SignIn, useUser } from "@clerk/nextjs";
-import  CreatePost  from "@/app/components/CreatePost";
+import CreatePostPage from "../../dashboard/create-post/page";
 
 export default function SignInPage() {
   const { user, isSignedIn } = useUser();
@@ -21,7 +21,7 @@ export default function SignInPage() {
 
       {isSignedIn && user.publicMetadata.isAdmin && (
         // si user is signed and isAdmin then show the create-post page
-        <CreatePost />
+        <CreatePostPage path="/create-post" />
       )}
       {/* // If the user is signed in but not an admin, you can show a message or redirect them elsewhere */}
       {isSignedIn && !user.publicMetadata.isAdmin && (
