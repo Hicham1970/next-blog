@@ -1,12 +1,14 @@
-import Post from '@/lib/models/post-model.js';  
-import { connect }from '@/lib/mongodb/mongoose.js';
+import {Post} from '@/lib/models/post-model.js';  
+import { Connect }from '@/lib/mongodb/mongoose.js';
 import { currentUser } from '@clerk/nextjs/server';
 export const POST = async (req) => {
     const user = await currentUser();
+    console.log('User in route.js:', user);
+   
     try {
-        await connect();
+        await Connect();
         const data = await req.json();
-        console.log('user', user.publicMetadata);
+        // console.log('user', user.publicMetadata.userId);
         console.log('data', data);
 
 
@@ -15,7 +17,7 @@ export const POST = async (req) => {
             user.publicMetadata.userMongoId !== data.userMongoId ||
             user.publicMetadata.isAdmin !== true
         ) {
-            return new Response('Unauthorized', {
+            return new Response('Unauthorized by Law', {
                 status: 401,
             });
         }
@@ -41,5 +43,9 @@ export const POST = async (req) => {
         return new Response('Error creating post', {
             status: 500,
         });
+    }
+    if (!user) {
+        console.error('User is null');
+        return new Response('Unauthorized', { status: 401 });
     }
 };

@@ -18,16 +18,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
-      <ClerkProvider>
-        <body>
+      <body>
+        <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ThemeCompo>
               <Header />
               {children}
             </ThemeCompo>
           </ThemeProvider>
-        </body>
-      </ClerkProvider>
+        </ClerkProvider>
+      </body>
     </html>
   );
 }

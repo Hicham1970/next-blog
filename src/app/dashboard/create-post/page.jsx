@@ -21,14 +21,16 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 export default function CreatePostPage() {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { isSignedIn, user, isLoaded} = useUser();
 
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
-  const router = useRouter();
+  const router = useRouter(); // pour naviguer entre les pages
+
+  console.log('User in create-post page:', user);
   console.log(formData);
 
   const handleUpdloadImage = async () => {
@@ -99,19 +101,24 @@ export default function CreatePostPage() {
     return null;
   }
 
+  if (!user) {
+    return <div>Vous devez être connecté pour créer un nouveau post</div>;
+  }
+
   if (isSignedIn && user.publicMetadata.isAdmin) {
     return (
       <div className="p-3 max-w-3xl mx-auto min-h-screen">
         <h1 className="text-center text-3xl my-7 font-semibold">
           Create a post
         </h1>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-4 sm:flex-row justify-between">
             <TextInput
               type="text"
               placeholder="Title"
               required
               id="title"
+              
               className="flex-1"
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
