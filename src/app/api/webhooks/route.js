@@ -47,6 +47,7 @@ export async function POST(req) {
         return new Response('Error occured', {
             status: 400,
         });
+
     }
 
     // Do something with the payload

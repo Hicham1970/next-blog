@@ -21,6 +21,14 @@ export const Connect = async () => {
         initialized = true;
         console.log('MongoDB connecté avec succès');
         console.log('Base de données:', mongoose.connection.db.databaseName);
+
+        // verification de la connexion
+        const db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'Erreur de connexion MongoDB:'));
+        db.once('open', () => console.log('Connexion MongoDB établie'));
+
+
+
     } catch (error) {
         console.error('Erreur détaillée:', {
             message: error.message,
