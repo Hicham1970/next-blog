@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body>
-        <ClerkProvider>
+        <ClerkProvider fallbackRedirectUrl="/dashboard">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ThemeCompo>
               <Header />
