@@ -1,5 +1,6 @@
 "use client";
 
+import {useEffect} from 'react'; 
 import { useUser } from "@clerk/nextjs";
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
 import dynamic from "next/dynamic";
@@ -31,7 +32,7 @@ export default function CreatePostPage() {
   const router = useRouter();
   console.log(formData);
 
-  const handleUpdloadImage = async () => {
+  const handleUploadImage = async () => {
     try {
       if (!file) {
         setImageUploadError("Please select an image");
@@ -94,11 +95,17 @@ export default function CreatePostPage() {
       setPublishError("Something went wrong");
     }
   };
+  useEffect(() => {
+    if (isLoaded && (!isSignedIn || !user.publicMetadata.isAdmin)) {
+      router.replace("/dashboard");
+    }
+  }, [isLoaded, isSignedIn, user, router]);
 
   if (!isLoaded) {
     return null;
   }
-
+  console.log({ isSignedIn, user });
+  
   if (isSignedIn && user.publicMetadata.isAdmin) {
     return (
       <div className="p-3 max-w-3xl mx-auto min-h-screen">
@@ -124,7 +131,7 @@ export default function CreatePostPage() {
             >
               <option value="uncategorized">Select a category</option>
               <option value="javascript">JavaScript</option>
-              <option value="reactjs">React.js</option>
+              <option value="React js">React.js</option>
               <option value="nextjs">Next.js</option>
             </Select>
           </div>
@@ -139,7 +146,7 @@ export default function CreatePostPage() {
               gradientDuoTone="purpleToBlue"
               size="sm"
               outline
-              onClick={handleUpdloadImage}
+              onClick={handleUploadImage}
               disabled={imageUploadProgress}
             >
               {imageUploadProgress ? (
