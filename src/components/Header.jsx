@@ -36,7 +36,7 @@ export default function Header() {
     }
   }, [searchParams]);
   return (
-    <Navbar className="border-b-2">
+    <Navbar className="border-b-2 container">
       <Link
         href="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
@@ -46,19 +46,7 @@ export default function Header() {
         </span>
         Blog
       </Link>
-      <form onSubmit={handleSubmit}>
-        <TextInput
-          type="text"
-          placeholder="Search..."
-          rightIcon={AiOutlineSearch}
-          className="hidden lg:inline"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </form>
-      <Button className="w-12 h-10 lg:hidden" color="gray" pill>
-        <AiOutlineSearch />
-      </Button>
+      
       <div className="flex gap-2 md:order-2">
         <Button
           className="w-12 h-10 hidden sm:inline"
@@ -68,37 +56,32 @@ export default function Header() {
         >
           {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
-
-        <SignedIn>
-          <UserButton appearance={{
-            baseTheme: theme === 'light'? neobrutalism : dark,
-          }}
-          />
-        </SignedIn>
-        <SignedOut>
-          <Link href="/sign-in">
-            <Button gradientDuoTone="purpleToBlue" outline>
-              Sign In
-            </Button>
-          </Link>
-        </SignedOut>
-
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
         <Link href="/">
-          <Navbar.Link active={path === "/"} as={"div"}>
-            Home
+          <Navbar.Link active={path === "/blog"} as={"div"}>
+            Blog
           </Navbar.Link>
         </Link>
-        <Link href="/about">
-          <Navbar.Link active={path === "/about"} as={"div"}>
-            About
+        <Link href="/create-blog">
+          <Navbar.Link active={path === "/create-blog"} as={"div"}>
+            Create
           </Navbar.Link>
         </Link>
-        <Link href="/projects">
-          <Navbar.Link active={path === "/projects"} as={"div"}>
-            Projects
+        <Link href="/user">
+          <Navbar.Link active={path === "/profile"} as={"div"}>
+            Profile
+          </Navbar.Link>
+        </Link>
+        <Link href="/login">
+          <Navbar.Link active={path === "/login"} as={"div"}>
+            Login
+          </Navbar.Link>
+        </Link>
+        <Link href="/signup">
+          <Navbar.Link active={path === "/signup"} as={"div"}>
+            Signup
           </Navbar.Link>
         </Link>
       </Navbar.Collapse>

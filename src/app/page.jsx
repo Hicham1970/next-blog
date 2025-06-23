@@ -2,9 +2,12 @@ import React from 'react'
 
 export default function Home() {
   return (
-    <div className="text-red-700 text-2xl font-bold">
+    <>
+    <h1>
       The home page
-    </div>
+      </h1>
+      <p>Les applications ne sont pas comme ce que tout la monde croit, non, se sont des bouffeuses d'énergie.ra</p>
+      </>
   )
 }
 
