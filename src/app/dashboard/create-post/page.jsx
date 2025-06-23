@@ -189,10 +189,6 @@ export default function CreatePostPage() {
       </div>
     );
   } else {
-    return (
-      <h1 className="text-center text-3xl my-7 font-semibold">
-        You are not authorized to view this page
-      </h1>
-    );
+    return null
   }
 }
