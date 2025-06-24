@@ -26,4 +26,9 @@
   }
 }
   
+@layer components{
+  .special-word {
+    @apply text-primaryColor;
+  }
 
+}
