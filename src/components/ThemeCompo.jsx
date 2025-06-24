@@ -16,9 +16,8 @@ export default function ThemeCompo({ children }) {
 
     return (
         <div className={theme}>
-            <div className="bg-white text-grey-700 dark:bg-gray-900 dark:text-gray-200 min-h-screen
-                          transition-colors duration-300 ease-in-out
-                          hover:bg-gray-50 dark:hover:bg-gray-800">
+            <div className="bg-white text-grey-700 dark:bg-secondaryColor dark:text-gray-200 min-h-screen
+                          transition-colors duration-300 ease-in-out">
                 {children}
             </div>
         </div>
