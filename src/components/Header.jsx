@@ -6,8 +6,8 @@ import Link from "next/link";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
-import Image from 'next/image';
-import { AiOutlineClose } from 'react-icons/ai';
+import Image from "next/image";
+import { AiOutlineClose } from "react-icons/ai";
 
 export default function Header() {
   const path = usePathname();
@@ -15,12 +15,12 @@ export default function Header() {
   const isLoggedIn = false; // Remplace par ta logique d'authentification
   const [showDropDown, setShowDropDown] = useState(false);
 
-  const handleShowDropDown = () => { 
-    setShowDropDown(prev => true);
-  }
-  const handleHideDropDown = () => { 
-    setShowDropDown(prev => false);
-  }
+  const handleShowDropDown = () => {
+    setShowDropDown((prev) => true);
+  };
+  const handleHideDropDown = () => {
+    setShowDropDown((prev) => false);
+  };
   return (
     <div className="border-b-2 container py-2 h-16 flex items-center justify-between">
       <Navbar fluid rounded className="w-full">
@@ -28,7 +28,14 @@ export default function Header() {
           <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:from-blue-500 dark:via-purple-600 dark:to-pink-600 rounded-lg text-white">
             Garoum&apos;s
           </span>
-          <span className="ml-2 self-center whitespace-nowrap text-2xl sm:text-xl font-semibold dark:text-white">
+
+          <span
+            className={
+              path === "/"
+                ? "text-primaryColor font-bold text-2xl"
+                : "ml-2 self-center whitespace-nowrap text-2xl sm:text-xl font-semibold dark:text-white"
+            }
+          >
             Blog
           </span>
         </Navbar.Brand>
@@ -44,19 +51,37 @@ export default function Header() {
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
-          <Navbar.Link as={Link} href="/blog" active={path === "/blog"} className="text-lg font-semibold">
-            Blog
+          <Navbar.Link
+            as={Link}
+            href="/blog"
+            active={path === "/blog"}
+            className="text-lg font-semibold"
+          >
+            <span
+              className={
+                path === "/blog" ? "text-primaryColor font-bold text-2xl" : ""
+              }
+            >
+              Blog
+            </span>
           </Navbar.Link>
           {isLoggedIn ? (
             <>
               <Navbar.Link
-
                 as={Link}
                 href="/create-blog"
                 active={path === "/create-blog"}
                 className="text-lg font-semibold"
               >
-                Create
+                <span
+                  className={
+                    path === "/create-blog"
+                      ? "text-primaryColor font-bold text-2xl"
+                      : ""
+                  }
+                >
+                  Create
+                </span>
               </Navbar.Link>
               <div className="relative">
                 <Image
@@ -79,7 +104,6 @@ export default function Header() {
                       as={Link}
                       href="/user"
                       active={path === "/user"}
-
                     >
                       Profile
                     </Navbar.Link>
@@ -89,11 +113,37 @@ export default function Header() {
             </>
           ) : (
             <>
-              <Navbar.Link as={Link} href="/login" active={path === "/login" } className="text-lg font-semibold">
-                Login
+              <Navbar.Link
+                as={Link}
+                href="/login"
+                active={path === "/login"}
+                className="text-lg font-semibold"
+              >
+                <span
+                  className={
+                    path === "/login"
+                      ? "text-primaryColor font-bold text-2xl"
+                      : ""
+                  }
+                >
+                  Login
+                </span>
               </Navbar.Link>
-              <Navbar.Link as={Link} href="/signup" active={path === "/signup" } className="text-lg font-semibold">
-                Signup
+              <Navbar.Link
+                as={Link}
+                href="/signup"
+                active={path === "/signup"}
+                className="text-lg font-semibold"
+              >
+                <span
+                  className={
+                    path === "/signup"
+                      ? "text-primaryColor font-bold text-2xl"
+                      : ""
+                  }
+                >
+                  Signup
+                </span>
               </Navbar.Link>
             </>
           )}
