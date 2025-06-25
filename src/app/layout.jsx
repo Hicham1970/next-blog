@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import { ThemeProvider } from "next-themes";
 import ThemeCompo from "@/components/ThemeCompo";
 import Footer from "@/components/Footer";
+import AuthProvider from "@/app/AuthProvider";
 
 
 const inter = Inter({
@@ -22,9 +23,11 @@ export default function RootLayout({ children }) {
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ThemeCompo>
-            <Header />
-            {children}
-            <Footer />
+            <AuthProvider>
+              <Header />
+              {children}
+              <Footer />
+            </AuthProvider>
           </ThemeCompo>
         </ThemeProvider>
       </body>
