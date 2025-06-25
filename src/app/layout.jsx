@@ -3,7 +3,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import { ThemeProvider } from "next-themes";
 import ThemeCompo from "@/components/ThemeCompo";
-import { ClerkProvider } from "@clerk/nextjs";
+import Footer from "@/components/Footer";
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,16 +19,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
-      <ClerkProvider>
-        <body>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ThemeCompo>
-              <Header />
-              {children}
-            </ThemeCompo>
-          </ThemeProvider>
-        </body>
-      </ClerkProvider>
+      <body>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeCompo>
+            <Header />
+            {children}
+            <Footer />
+          </ThemeCompo>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

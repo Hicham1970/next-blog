@@ -126,7 +126,7 @@ export default function Header() {
                       : ""
                   }
                 >
-                  Login
+                  Log In
                 </span>
               </Navbar.Link>
               <Navbar.Link
@@ -142,7 +142,7 @@ export default function Header() {
                       : ""
                   }
                 >
-                  Signup
+                  Sign Up
                 </span>
               </Navbar.Link>
             </>

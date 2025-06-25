@@ -30,5 +30,8 @@
   .special-word {
     @apply text-primaryColor;
   }
+  .btn{
+    @apply bg-primaryColor dark:text-white text-black px-5 py-2 rounded-lg hover:opacity-90 transition duration-300 ease-in-out;  
+  }
 
 }

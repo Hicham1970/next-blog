@@ -13,7 +13,7 @@ export default function Home() {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, quidem molestias.  
         </p>
       </div>
-      <div className="md:block basis-1/3 mt-12">
+      <div className=" hidden md:block basis-1/3 mt-12">
         <Image
           src="/img/ara3.png"
           alt="Ara"
