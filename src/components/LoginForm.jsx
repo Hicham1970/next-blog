@@ -2,8 +2,19 @@
 
 import InputCompo from './InputCompo';
 import Link from 'next/link';
+import { useState, useEffect } from 'react'; 
 
 const LoginForm = () => {
+    const [hydrated, setHydrated] = useState(false)
+  
+    useEffect(() => {
+      setHydrated(true)
+    }, [])
+  
+    if (!hydrated) {
+      return null; // Render nothing until the component is hydrated
+  }
+  
     return (
       <section className="container ">
         <form className="border-2  border-paragraphColor rounded-lg max-w-sm mx-auto px-8 py-6 space-y-5 ">
