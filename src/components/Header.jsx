@@ -8,12 +8,15 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { AiOutlineClose } from "react-icons/ai";
+import { signOut, useSession } from 'next-auth/react';
+
 
 export default function Header() {
   const path = usePathname();
   const { theme, setTheme } = useTheme();
   const isLoggedIn = false; // Remplace par ta logique d'authentification
   const [showDropDown, setShowDropDown] = useState(false);
+  const { data:session, status} = useSession();
 
   const handleShowDropDown = () => {
     setShowDropDown((prev) => true);
@@ -65,7 +68,7 @@ export default function Header() {
               Blog
             </span>
           </Navbar.Link>
-          {isLoggedIn ? (
+          {session?.user ? (
             <>
               <Navbar.Link
                 as={Link}
@@ -98,7 +101,7 @@ export default function Header() {
                       onClick={handleHideDropDown}
                       className="w-full cursor-pointer"
                     />
-                    <button onClick={handleHideDropDown}>Logout</button>
+                    <button onClick={() => { signOut(); handleHideDropDown()}}>Logout</button>
                     <Navbar.Link
                       onClick={handleHideDropDown}
                       as={Link}
