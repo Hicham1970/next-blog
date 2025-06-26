@@ -9,3 +9,14 @@ export function signJwtToken(user) {
     );
     return token;
 }
+
+export function verifyJwtToken(token) {
+    const secretKey = process.env.JWT_SECRET;
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        return decoded; // Returns the decoded token if valid
+    } catch (error) {
+        console.error('JWT verification error:', error);
+        return null; // Return null if verification fails
+    }
+ }

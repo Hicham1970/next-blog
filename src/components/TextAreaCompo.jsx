@@ -1,11 +1,11 @@
 
 
-const InputCompo = ({type,value, placeholder, onChange, name, label}) => {
+const TextAreaCompo = ({rows,value, placeholder, onChange, name, label}) => {
   return (
     <div className="space-y-1">
       <label>{label}</label>
-      <input
-        type={type}
+      <textarea
+        rows={rows}
         value={value}
         placeholder={placeholder}
         onChange={onChange}
@@ -16,4 +16,5 @@ const InputCompo = ({type,value, placeholder, onChange, name, label}) => {
   );
 }
 
-export default InputCompo
+export default TextAreaCompo
+
