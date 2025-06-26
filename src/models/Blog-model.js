@@ -32,7 +32,7 @@ const BlogSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ["HTML", "CSS", "JavaScript", "React", "Node.js", "Python", "Tailwind", "MongoDB", "Vessels", "Ports", "Music", "Draft Survey", "Excel", "GitHub"],
+        enum: ["Html", "CSS", "Javascript", "React", "Nodejs", "Python", "Mongodb", "Vessels", "Ports", "Nextjs", "Draft Survey", "Excel", "GitHub"],
     },
     authorId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -59,7 +59,7 @@ const BlogSchema = new mongoose.Schema({
             default: Date.now
         }
     }],
-    
+
 
 
 },
