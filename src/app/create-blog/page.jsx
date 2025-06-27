@@ -198,17 +198,18 @@ function CreateBlog() {
             value={state.category}
             className="block rounded-lg  w-full bg-white dark:bg-primaryColorLight  py-2 px-3"
           >
-            <option value="Html">HTML</option>
+            <option value="HTML">HTML</option>
             <option value="CSS">CSS</option>
             <option value="Javascript">Javascript</option>
             <option value="React">React</option>
             <option value="Nodejs">Nodejs</option>
+            <option value="Nextjs">Nextjs</option>
             <option value="Python">Python</option>
             <option value="Mongodb">Mongodb</option>
             <option value="GitHub">GitHub</option>
             <option value="Excel">Excel</option>
             <option value="Ports">Ports</option>
-            <option value="Draft_Survey">Draft Survey</option>
+            <option value="Draft Survey">Draft Survey</option>
             <option value="Vessels">Vessels</option>
           </select>
         </div>

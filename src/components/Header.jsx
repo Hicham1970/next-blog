@@ -27,8 +27,9 @@ export default function Header() {
   return (
     <div className="border-b-2 container py-2 h-16 flex items-center justify-between">
       <Navbar fluid rounded className="w-full">
-        <Navbar.Brand as={Link} href="/">
-          <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:from-blue-500 dark:via-purple-600 dark:to-pink-600 rounded-lg text-white">
+        <Navbar.Brand as={Link} href="/">          
+        
+          <span className="px-2 py-1 bg-gradient-to-r from-orange-500 via-red-700 to-yellow-900 dark:from-red-500 dark:via-yellow-200 dark:to-yellow-500 rounded-lg text-white dark:text-primaryColor ">
             Garoum&apos;s
           </span>
 

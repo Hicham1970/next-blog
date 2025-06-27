@@ -24,15 +24,18 @@ const BlogSchema = new mongoose.Schema({
     image: {
         id: {
             type: String,
+            required:true,
         },
         url: {
             type: String,
+            required:true,
+
         }
     },
     category: {
         type: String,
         required: true,
-        enum: ["Html", "CSS", "Javascript", "React", "Nodejs", "Python", "Mongodb", "Vessels", "Ports", "Nextjs", "Draft Survey", "Excel", "GitHub"],
+        enum: ["HTML", "CSS", "Javascript", "React", "Nodejs", "Python", "Mongodb", "Vessels", "Ports", "Nextjs", "Draft Survey", "Excel", "GitHub"],
     },
     authorId: {
         type: mongoose.Schema.Types.ObjectId,
