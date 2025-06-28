@@ -62,7 +62,7 @@ const FirstBlog = ({ firstBlog }) => {
             </div>
             <div className="text-sm text-paragraphColor space-y-1">
               <p className="dark:text-white text-black">
-                {firstBlog?.description}
+                {firstBlog?.designation}
               </p>
             </div>
           </div>

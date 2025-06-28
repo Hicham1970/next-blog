@@ -29,7 +29,7 @@ export default function Header() {
       <Navbar fluid rounded className="w-full">
         <Navbar.Brand as={Link} href="/">          
         
-          <span className="px-2 py-1 bg-gradient-to-r from-orange-500 via-red-700 to-yellow-900 dark:from-red-500 dark:via-yellow-200 dark:to-yellow-500 rounded-lg text-white dark:text-primaryColor ">
+          <span className="px-2 py-1 bg-gradient-to-r from-orange-500 via-red-700 to-yellow-900 dark:from-red-500 dark:via-yellow-200 dark:to-yellow-500 rounded-lg text-primaryColor dark:text-white ">
             Garoum&apos;s
           </span>
 
